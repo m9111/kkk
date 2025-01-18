@@ -97,10 +97,10 @@ class Question(BaseModel):
     question: str
     ideal_answer: Optional[str] = None
 
-SYSTEM_MESSAGE = os.getenv('OPENAI_SYSTEM_MESSAGE', 'You are a helpful AI assistant specializing in document analysis.')
+SYSTEM_MESSAGE = os.getenv('OPENAI_SYSTEM_MESSAGE', 'You are a helpful AI that asks question, everytime u will generate questions that  will be unique and those which challenges the concepts of user.')
 CHUNK_SIZE = int(os.getenv('CHUNK_SIZE', 1000))
 CHUNK_OVERLAP = int(os.getenv('CHUNK_OVERLAP', 200))
-MODEL_NAME = os.getenv('MODEL_NAME', 'gpt-4-turbo-preview')
+MODEL_NAME = os.getenv('MODEL_NAME', 'gpt-4o-mini')
 PDF_PATHS = [
     os.path.join('data', "Ilesh Sir (IK) - Words.pdf"),
     os.path.join('data', "UBIK SOLUTION.pdf"),
@@ -157,7 +157,7 @@ def create_chain(session_data: dict):
     )
 
 def generate_questions(chain, num_questions: int = 5) -> List[Question]:
-    prompt = f"{SYSTEM_MESSAGE}\n\nGenerate {num_questions} questions about Ubik Solutions and their products/services. Make questions that test understanding of key concepts and details."
+    prompt = f"{SYSTEM_MESSAGE}\n\nGenerate {num_questions} questions about THE CONTEXT PROVIDED. Make questions that test understanding of key concepts and details. Ask unique question, the question should be more on dermat side, make sure to avoid marketing type or promotional question"
     response = chain({'question': prompt})
     answer_text = response.get('answer', '')
     
